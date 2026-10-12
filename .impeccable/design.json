@@ -1,0 +1,218 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-10T02:02:50.777Z",
+  "title": "Design System: Visibilizar es Intervenir",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Forest Green",
+        "canonical": "hsl(162 49% 24%)",
+        "tonalRamp": ["oklch(15% 0.030 170.0)", "oklch(25% 0.050 170.0)", "oklch(35% 0.069 170.0)", "oklch(45% 0.069 170.0)", "oklch(60% 0.069 170.0)", "oklch(70% 0.069 170.0)", "oklch(82% 0.069 170.0)", "oklch(95% 0.069 170.0)"]
+      },
+      "secondary": {
+        "role": "secondary",
+        "displayName": "Petrol Blue",
+        "canonical": "hsl(187 79% 28%)",
+        "tonalRamp": ["oklch(15% 0.026 209.2)", "oklch(25% 0.043 209.2)", "oklch(35% 0.060 209.2)", "oklch(45% 0.078 209.2)", "oklch(60% 0.084 209.2)", "oklch(70% 0.084 209.2)", "oklch(82% 0.084 209.2)", "oklch(95% 0.045 209.2)"]
+      },
+      "background": {
+        "role": "neutral",
+        "displayName": "Pale Paper",
+        "canonical": "hsl(135 14% 96%)",
+        "tonalRamp": ["oklch(15% 0.004 153.8)", "oklch(25% 0.004 153.8)", "oklch(35% 0.004 153.8)", "oklch(45% 0.004 153.8)", "oklch(60% 0.004 153.8)", "oklch(70% 0.004 153.8)", "oklch(82% 0.004 153.8)", "oklch(95% 0.004 153.8)"]
+      },
+      "foreground": {
+        "role": "neutral",
+        "displayName": "Deep Blue-Green Ink",
+        "canonical": "hsl(204 48% 18%)",
+        "tonalRamp": ["oklch(15% 0.034 239.7)", "oklch(25% 0.046 239.7)", "oklch(35% 0.046 239.7)", "oklch(45% 0.046 239.7)", "oklch(60% 0.046 239.7)", "oklch(70% 0.046 239.7)", "oklch(82% 0.046 239.7)", "oklch(95% 0.027 239.7)"]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "White Surface",
+        "canonical": "#ffffff",
+        "tonalRamp": ["oklch(15% 0.000 89.8)", "oklch(25% 0.000 89.8)", "oklch(35% 0.000 89.8)", "oklch(45% 0.000 89.8)", "oklch(60% 0.000 89.8)", "oklch(70% 0.000 89.8)", "oklch(82% 0.000 89.8)", "oklch(95% 0.000 89.8)"]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Soft Sage",
+        "canonical": "hsl(140 35% 93%)",
+        "tonalRamp": ["oklch(15% 0.017 156.9)", "oklch(25% 0.017 156.9)", "oklch(35% 0.017 156.9)", "oklch(45% 0.017 156.9)", "oklch(60% 0.017 156.9)", "oklch(70% 0.017 156.9)", "oklch(82% 0.017 156.9)", "oklch(95% 0.017 156.9)"]
+      },
+      "muted-foreground": {
+        "role": "neutral",
+        "displayName": "Muted Blue-Green",
+        "canonical": "hsl(200 18% 39%)",
+        "tonalRamp": ["oklch(15% 0.030 229.9)", "oklch(25% 0.034 229.9)", "oklch(35% 0.034 229.9)", "oklch(45% 0.034 229.9)", "oklch(60% 0.034 229.9)", "oklch(70% 0.034 229.9)", "oklch(82% 0.034 229.9)", "oklch(95% 0.030 229.9)"]
+      },
+      "accent": {
+        "role": "neutral",
+        "displayName": "Sage Accent",
+        "canonical": "hsl(134 33% 86%)",
+        "tonalRamp": ["oklch(15% 0.035 152.6)", "oklch(25% 0.035 152.6)", "oklch(35% 0.035 152.6)", "oklch(45% 0.035 152.6)", "oklch(60% 0.035 152.6)", "oklch(70% 0.035 152.6)", "oklch(82% 0.035 152.6)", "oklch(95% 0.035 152.6)"]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Quiet Green Border",
+        "canonical": "hsl(164 24% 83%)",
+        "tonalRamp": ["oklch(15% 0.023 178.0)", "oklch(25% 0.023 178.0)", "oklch(35% 0.023 178.0)", "oklch(45% 0.023 178.0)", "oklch(60% 0.023 178.0)", "oklch(70% 0.023 178.0)", "oklch(82% 0.023 178.0)", "oklch(95% 0.023 178.0)"]
+      },
+      "destructive": {
+        "role": "tertiary",
+        "displayName": "Error Red",
+        "canonical": "hsl(0 62% 45%)",
+        "tonalRamp": ["oklch(15% 0.061 26.1)", "oklch(25% 0.102 26.1)", "oklch(35% 0.142 26.1)", "oklch(45% 0.179 26.1)", "oklch(60% 0.179 26.1)", "oklch(70% 0.179 26.1)", "oklch(82% 0.101 26.1)", "oklch(95% 0.025 26.1)"]
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Hero",
+        "purpose": "Responsive home-page title."
+      },
+      "title": {
+        "displayName": "Section title",
+        "purpose": "Organization, course and content-section headings."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Explanatory copy, course material and organization information."
+      },
+      "label": {
+        "displayName": "Interface label",
+        "purpose": "Buttons, filter labels, badges and compact interface text."
+      }
+    },
+    "shadows": [
+      {
+        "name": "surface",
+        "value": "0 1px 2px 0 rgb(0 0 0 / 0.05)",
+        "purpose": "Light separation for the sticky header and standard cards."
+      },
+      {
+        "name": "hero-art",
+        "value": "0 18px 42px hsl(var(--primary) / 0.28)",
+        "purpose": "Depth on the circular hero illustration stage."
+      }
+    ],
+    "motion": [
+      {
+        "name": "control-state",
+        "value": "150ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Existing Tailwind transition timing for interactive controls."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "animation-duration: 0.01ms; transition-duration: 0.01ms",
+        "purpose": "Respect the user's reduced-motion preference."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "sm",
+        "value": "640px"
+      },
+      {
+        "name": "md",
+        "value": "768px"
+      },
+      {
+        "name": "lg",
+        "value": "1024px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Forest-filled action used for the main application and course actions.",
+      "html": "<button class=\"ds-button-primary\">Panel de gestión</button>",
+      "css": ".ds-button-primary { background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); border: 0; border-radius: 4px; padding: 8px 16px; min-height: 36px; font: 500 14px/20px Arial, sans-serif; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-button-primary:hover { background: hsl(var(--primary) / 0.9); } .ds-button-primary:focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; }"
+    },
+    {
+      "name": "Secondary Button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Petrol-blue action for secondary tasks and hero calls to action.",
+      "html": "<button class=\"ds-button-secondary\">Exportar CSV</button>",
+      "css": ".ds-button-secondary { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); border: 0; border-radius: 4px; padding: 8px 16px; min-height: 36px; font: 500 14px/20px Arial, sans-serif; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-button-secondary:hover { background: hsl(var(--secondary) / 0.8); } .ds-button-secondary:focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Lower-emphasis action with a quiet border and sage hover fill.",
+      "html": "<button class=\"ds-button-outline\">Limpiar</button>",
+      "css": ".ds-button-outline { background: hsl(var(--background)); color: hsl(var(--foreground)); border: 1px solid hsl(var(--border)); border-radius: 4px; padding: 8px 16px; min-height: 36px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); font: 500 14px/20px Arial, sans-serif; cursor: pointer; transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1), color 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-button-outline:hover { background: hsl(var(--accent)); color: hsl(var(--accent-foreground)); } .ds-button-outline:focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; }"
+    },
+    {
+      "name": "Organization Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Selectable organization summary linked to its map marker.",
+      "html": "<article class=\"ds-organization-card ds-active\" tabindex=\"0\"><strong>Organización</strong><p>Comuna · categoría</p><p>Descripción y datos de contacto</p></article>",
+      "css": ".ds-organization-card { background: hsl(var(--card)); color: hsl(var(--card-foreground)); border: 1px solid hsl(var(--border)); border-radius: 10px; padding: 24px; box-shadow: 0 1px 2px 0 rgb(0 0 0 / 0.05); font: 400 14px/1.5 Arial, sans-serif; transition: box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1); cursor: pointer; } .ds-organization-card:hover { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); } .ds-organization-card:focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; } .ds-organization-card.ds-active { outline: 3px solid hsl(var(--secondary)); outline-offset: 2px; }"
+    },
+    {
+      "name": "Search Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Text filter field for finding organizations by name or description.",
+      "html": "<input class=\"ds-input\" type=\"search\" aria-label=\"Buscar\" placeholder=\"Nombre o descripción…\">",
+      "css": ".ds-input { width: 100%; min-width: 0; height: 36px; padding: 4px 12px; border: 1px solid hsl(var(--input)); border-radius: 4px; background: transparent; color: hsl(var(--foreground)); font: 400 16px/24px Arial, sans-serif; transition: border-color 150ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 150ms cubic-bezier(0.4, 0, 0.2, 1); } .ds-input::placeholder { color: hsl(var(--muted-foreground)); } .ds-input:focus-visible { outline: 3px solid hsl(var(--ring) / 0.5); outline-offset: 2px; } .ds-input:disabled { opacity: 0.5; cursor: not-allowed; }"
+    },
+    {
+      "name": "Route Navigation",
+      "kind": "nav",
+      "refersTo": "nav",
+      "description": "Route buttons in the sticky header, with the current route using the secondary fill.",
+      "html": "<nav class=\"ds-route-nav\" aria-label=\"Navegación principal\"><button>Mapa de organizaciones</button><button class=\"ds-route-active\" aria-current=\"page\">El curso</button><button>Observa Chile</button></nav>",
+      "css": ".ds-route-nav { display: flex; align-items: center; gap: 4px; } .ds-route-nav button { border: 0; border-radius: 4px; padding: 8px 12px; background: transparent; color: hsl(var(--foreground)); font: 500 14px/20px Arial, sans-serif; cursor: pointer; transition: background-color 150ms ease, color 150ms ease; } .ds-route-nav button:hover { background: hsl(var(--accent)); color: hsl(var(--accent-foreground)); } .ds-route-nav button:focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; } .ds-route-nav .ds-route-active { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); }"
+    },
+    {
+      "name": "Status Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Compact status or organization metadata; outline variants mark commune and category.",
+      "html": "<span class=\"ds-status-badge\">Validada</span><span class=\"ds-status-badge ds-secondary\">En revisión</span><span class=\"ds-status-badge ds-outline\">Comuna</span>",
+      "css": ".ds-status-badge { display: inline-flex; align-items: center; border: 1px solid transparent; border-radius: 9999px; padding: 2px 8px; background: hsl(var(--primary)); color: hsl(var(--primary-foreground)); font: 500 12px/16px Arial, sans-serif; white-space: nowrap; } .ds-status-badge.ds-secondary { background: hsl(var(--secondary)); color: hsl(var(--secondary-foreground)); } .ds-status-badge.ds-outline { border-color: hsl(var(--border)); background: transparent; color: hsl(var(--foreground)); } .ds-status-badge:focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Territorial visibility",
+    "overview": "“Visibilizar es Intervenir” remains the product name and mission: making Aysén organizations visible while connecting that discovery to learning and accessibility fieldwork. Its visual language uses the supplied ESPORA palette and two tree illustrations within the existing application; this is a visual reference, not an ESPORA affiliation, sponsorship, operation, or endorsement. Arial is the specified typeface.\n\nThe same system supports community members and families finding local organizations, as well as students and educators using the course and field tools. Keep the searchable, filterable public map, accessible table and CSV export; course program; keyboard-navigable presentation; cartilla in situ; and Observa Chile legal and field guide, inspection checklist, photo evidence, scoring and PDF report. The demonstration management panel also remains a working product surface. Course attribution to Universidad de Aysén remains in place.",
+    "keyCharacteristics": [
+      "Forest green and petrol blue structure a pale, high-contrast interface.",
+      "Supplied tree illustrations mark the site header and hero without replacing its product identity.",
+      "Cards, bordered controls and responsive columns organize dense public and educational information.",
+      "Map content has an accessible table alternative; keyboard focus and persistent contrast and text-size controls remain visible parts of the experience."
+    ],
+    "rules": [
+      {
+        "name": "The Visual Reference Rule",
+        "body": "Apply the supplied ESPORA colors as a visual direction only; do not describe or present the product as affiliated with ESPORA.",
+        "section": "colors"
+      },
+      {
+        "name": "The One-Family Rule",
+        "body": "Keep interface and content typography in Arial with a sans-serif fallback; establish hierarchy with the existing size and weight scale.",
+        "section": "typography"
+      }
+    ],
+    "dos": [
+      "Do use Arial and the existing forest, petrol, pale-paper, sage and ink roles.",
+      "Do retain “Visibilizar es Intervenir,” its purpose and Spanish-language interface.",
+      "Do keep the map, educational pages, checklist, inspection tools, management panel and accessibility controls within their current product context.",
+      "Do preserve Universidad de Aysén attribution where it identifies the course and its source materials.",
+      "Do keep the supplied tree illustrations decorative and use the existing visible keyboard-focus, contrast and text-size affordances."
+    ],
+    "donts": [
+      "Don't imply ESPORA sponsors, operates or endorses this application.",
+      "Don't add the FAO logo or other ESPORA-package institutional marks.",
+      "Don't remove the Universidad de Aysén course attribution or replace the application’s product name and mission.",
+      "Don't treat map, checklist, report or course tools as decorative previews; they are working product surfaces."
+    ]
+  }
+}

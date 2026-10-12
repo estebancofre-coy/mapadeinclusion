@@ -1,0 +1,110 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 135 14% 96%;
+    --foreground: 204 48% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 204 48% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 204 48% 18%;
+    --primary: 162 49% 24%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 187 79% 28%;
+    --secondary-foreground: 0 0% 100%;
+    --muted: 140 35% 93%;
+    --muted-foreground: 200 18% 39%;
+    --accent: 134 33% 86%;
+    --accent-foreground: 204 48% 18%;
+    --destructive: 0 62% 45%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 164 24% 83%;
+    --input: 164 24% 83%;
+    --ring: 162 49% 24%;
+    --radius: 0.375rem;
+  }
+}
+
+@layer base {
+  * { @apply border-border; }
+  body { @apply bg-background text-foreground antialiased; font-family: Arial, sans-serif; }
+}
+
+/* ====== Accesibilidad: alto contraste y texto grande (persisten en localStorage) ====== */
+html.alto-contraste {
+  --background: 0 0% 100%;
+  --foreground: 0 0% 0%;
+  --card: 0 0% 100%;
+  --card-foreground: 0 0% 0%;
+  --primary: 162 80% 14%;
+  --secondary: 187 100% 20%;
+  --muted-foreground: 0 0% 15%;
+  --border: 0 0% 0%;
+  --accent: 43 90% 42%;
+}
+html.alto-contraste * { border-color: hsl(var(--border) / 0.35) !important; }
+html.alto-contraste a { text-decoration: underline; }
+html.texto-grande { font-size: 118%; }
+
+/* Skip link */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 100;
+  background: hsl(var(--primary)); color: #fff; padding: .75rem 1.25rem; border-radius: 0 0 var(--radius) 0;
+}
+.skip-link:focus { left: 0; }
+
+/* Hero map decorativo */
+.hero-map { position: absolute; inset: 0; z-index: 0; }
+.hero-map .leaflet-container { background: hsl(var(--foreground)); }
+.hero-overlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(110deg, hsl(var(--primary) / 0.96) 0%, hsl(var(--primary) / 0.92) 58%, hsl(var(--secondary) / 0.78) 100%);
+}
+.hero-art-stage {
+  width: min(100%, 17rem);
+  aspect-ratio: 1;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgb(255 255 255 / 0.35);
+  border-radius: 50%;
+  background: hsl(var(--primary));
+  box-shadow: 0 18px 42px hsl(var(--primary) / 0.28);
+}
+.hero-art {
+  display: block;
+  width: 88%;
+  height: 88%;
+  object-fit: contain;
+}
+.hero-art-stage:focus-within {
+  outline: 3px solid #f7cb68;
+  outline-offset: 4px;
+}
+
+/* Mapa principal */
+.mapa-principal { height: 520px; width: 100%; border-radius: var(--radius); z-index: 0; }
+
+/* Tarjeta activa sincronizada con mapa */
+.org-card-activa { outline: 3px solid hsl(var(--secondary)); outline-offset: 2px; }
+
+/* Observa Chile shares the platform palette and spacing without leaking styles. */
+.observa-chile .section-shell { @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8; }
+.observa-chile .section-eyebrow { @apply text-xs font-semibold uppercase tracking-[0.2em] text-secondary; }
+.observa-chile .paper-card { @apply rounded-xl border border-border bg-card shadow-sm; }
+.observa-chile .font-serif-display { font-family: inherit; }
+.observa-chile section[id] { scroll-margin-top: 8rem; }
+
+/* Presentación */
+.slide { display: none; }
+.slide.activa { display: flex; }
+
+:focus-visible { outline: 3px solid hsl(var(--ring)); outline-offset: 2px; border-radius: 4px; }
+.hero-content :focus-visible { outline-color: #f7cb68; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
