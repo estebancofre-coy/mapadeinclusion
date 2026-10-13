@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: Arial, sans-serif;
+        color: hsl(204 48% 18%);
+        background: hsl(135 14% 96%);
+      }
+      * { box-sizing: border-box; }
+      body { margin: 0; }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px 20px;
+        padding: 14px clamp(16px, 4vw, 48px);
+        background: hsl(162 49% 24%);
+        color: #fff;
+      }
+      header strong { font-size: 1rem; }
+      header span { font-size: .875rem; line-height: 1.4; }
+      main { min-height: calc(100vh - 58px); }
+      iframe {
+        display: block;
+        width: 100%;
+        height: calc(100vh - 58px);
+        min-height: 640px;
+        border: 0;
+        background: #fff;
+      }
+      #status {
+        position: fixed;
+        z-index: 5;
+        inset: auto 12px 12px auto;
+        max-width: min(360px, calc(100vw - 24px));
+        padding: 10px 14px;
+        border-radius: 6px;
+        background: hsl(162 49% 24%);
+        color: #fff;
+        font-size: .875rem;
+        box-shadow: 0 1px 2px 0 rgb(0 0 0 / .05);
+      }
+      #status:empty { display: none; }
+      @media (max-width: 560px) {
+        header { align-items: flex-start; flex-direction: column; }
+        iframe { height: calc(100vh - 82px); min-height: 560px; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>Observa Chile · Cartilla de inspección</strong>
+      <span>Respuestas y fotografías almacenadas de forma privada para el equipo responsable.</span>
+    </header>
+    <main>
+      <iframe
+        id="inspection"
+        title="Cartilla de inspección Observa Chile"
+        src="https://estebancofre-coy.github.io/mapadeinclusion/#/inspeccion"
+        referrerpolicy="origin"
+      ></iframe>
+    </main>
+    <div id="status" role="status" aria-live="polite"></div>
+    <script>
+      const pageOrigin = "https://estebancofre-coy.github.io";
+      const frame = document.getElementById("inspection");
+      const status = document.getElementById("status");
+      let pending = false;
+      let inspectionReady = false;
+      let readyTimer = null;
+
+      function postToInspection(message) {
+        if (frame.contentWindow) frame.contentWindow.postMessage(message, pageOrigin);
+      }
+
+      function tellReady() {
+        postToInspection({ type: "ESPORA_INSPECTION_HOST_READY" });
+      }
+
+      function announceReady() {
+        inspectionReady = false;
+        tellReady();
+        let attempts = 0;
+        if (readyTimer) clearInterval(readyTimer);
+        readyTimer = setInterval(() => {
+          if (inspectionReady || attempts >= 20) {
+            clearInterval(readyTimer);
+            readyTimer = null;
+            return;
+          }
+          attempts += 1;
+          tellReady();
+        }, 300);
+      }
+
+      frame.addEventListener("load", announceReady);
+      window.addEventListener("message", (event) => {
+        if (event.origin !== pageOrigin || event.source !== frame.contentWindow) return;
+        if (event.data?.type === "ESPORA_INSPECTION_CHILD_READY") {
+          inspectionReady = true;
+          if (readyTimer) clearInterval(readyTimer);
+          readyTimer = null;
+          return;
+        }
+        if (event.data?.type !== "ESPORA_INSPECTION_SUBMIT" || pending) return;
+
+        pending = true;
+        status.textContent = "Enviando la inspección de forma privada…";
+        google.script.run
+          .withSuccessHandler((result) => {
+            pending = false;
+            status.textContent = "Inspección guardada. Código: " + result.codigo;
+            postToInspection({ type: "ESPORA_INSPECTION_SAVED", codigo: result.codigo });
+          })
+          .withFailureHandler(() => {
+            pending = false;
+            status.textContent = "No se pudo guardar. Revisa tu conexión e inténtalo nuevamente.";
+            postToInspection({ type: "ESPORA_INSPECTION_FAILED" });
+          })
+          .saveInspection(event.data.inspeccion);
+      });
+    </script>
+  </body>
+</html>

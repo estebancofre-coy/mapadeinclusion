@@ -43,6 +43,7 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_PATH: /mapadeinclusion/
+          VITE_APPS_SCRIPT_URL: ${{ vars.VITE_APPS_SCRIPT_URL }}
 
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3

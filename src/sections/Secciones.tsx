@@ -1,14 +1,30 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Users, ClipboardCheck, Upload, Globe, BookOpen, Accessibility, Eye, Keyboard, MonitorSmartphone } from 'lucide-react';
+import { Users, Globe, BookOpen } from 'lucide-react';
 import { assetUrl } from '@/lib/assetUrl';
 
 export function ComoParticipar() {
   const pasos = [
-    { icon: Users, titulo: '1. Contacto con la agrupación', texto: 'Las duplas de estudiantes contactan formalmente a cada organización y acuerdan los términos del trabajo conjunto.' },
-    { icon: ClipboardCheck, titulo: '2. Consentimiento informado', texto: 'La organización decide qué información se publica, revisa su ficha y aprueba el texto final antes de la publicación.' },
-    { icon: Upload, titulo: '3. Construcción de la ficha', texto: 'Se levanta la información con checklist de diseño universal y se valida con la agrupación en terreno.' },
-    { icon: Globe, titulo: '4. Publicación y devolución', texto: 'La ficha se publica en el mapa y el proceso se devuelve a la organización para su sostenibilidad.' },
+    {
+      img: 'assets/elementos/acuerdo-manos.png',
+      titulo: '1. Contacto con la agrupación',
+      texto: 'Las duplas de estudiantes contactan formalmente a cada organización y acuerdan los términos del trabajo conjunto.',
+    },
+    {
+      img: 'assets/elementos/cuidado-corazon.png',
+      titulo: '2. Consentimiento informado',
+      texto: 'La organización decide qué información se publica, revisa su ficha y aprueba el texto final antes de la publicación.',
+    },
+    {
+      img: 'assets/elementos/red-comunitaria.png',
+      titulo: '3. Construcción de la ficha',
+      texto: 'Se levanta la información con checklist de diseño universal y se valida con la agrupación en terreno.',
+    },
+    {
+      img: 'assets/elementos/mapa-aysen.png',
+      titulo: '4. Publicación y devolución',
+      texto: 'La ficha se publica en el mapa y el proceso se devuelve a la organización para su sostenibilidad.',
+    },
   ];
   return (
     <section className="bg-muted/50 py-16" aria-labelledby="titulo-participar">
@@ -17,9 +33,11 @@ export function ComoParticipar() {
         <p className="text-muted-foreground mt-2 max-w-2xl">La plataforma se construye con las organizaciones, no sobre ellas. Este es el proceso que siguen las y los estudiantes del curso.</p>
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {pasos.map(p => (
-            <Card key={p.titulo}>
-              <CardHeader>
-                <p.icon className="h-8 w-8 text-secondary" aria-hidden="true" />
+            <Card key={p.titulo} className="interactive-art-card group overflow-hidden border-border/80">
+              <CardHeader className="pb-2">
+                <div className="h-16 w-16 mb-2 rounded-xl bg-primary/5 p-2 flex items-center justify-center">
+                  <img src={assetUrl(p.img)} alt="" className="art-icon h-12 w-auto object-contain" />
+                </div>
                 <CardTitle className="text-base">{p.titulo}</CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">{p.texto}</CardContent>
@@ -36,7 +54,10 @@ export function CursoSection({ ir }: { ir: (r: string) => void }) {
     <section className="py-16" aria-labelledby="titulo-curso">
       <div className="max-w-7xl mx-auto px-4 grid md:grid-cols-2 gap-8 items-center">
         <div>
-          <h2 id="titulo-curso" className="text-3xl font-bold text-primary">El curso detrás de la plataforma</h2>
+          <div className="flex items-center gap-3">
+            <h2 id="titulo-curso" className="text-3xl font-bold text-primary">El curso detrás de la plataforma</h2>
+            <img src={assetUrl('assets/elementos/calafate.png')} alt="" className="h-8 w-auto object-contain animate-subtle-float" />
+          </div>
           <p className="mt-4 text-muted-foreground">
             <strong className="text-foreground">Trabajo Social y Discapacidad (TSE013-1)</strong> es un electivo de la carrera de
             Trabajo Social de la Universidad de Aysén. Su único proceso de investigación-intervención es la construcción
@@ -52,8 +73,13 @@ export function CursoSection({ ir }: { ir: (r: string) => void }) {
             <Button variant="outline" onClick={() => ir('#/presentacion')}>Presentación primera clase</Button>
           </div>
         </div>
-        <Card className="bg-primary text-primary-foreground">
-          <CardHeader><CardTitle>Resultados de aprendizaje</CardTitle></CardHeader>
+        <Card className="bg-primary text-primary-foreground relative overflow-hidden">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <CardTitle>Resultados de aprendizaje</CardTitle>
+              <img src={assetUrl('assets/elementos/huemul.png')} alt="" className="h-10 w-auto object-contain opacity-90" />
+            </div>
+          </CardHeader>
           <CardContent>
             <ol className="list-decimal list-inside space-y-3 text-sm">
               <li>Comprender críticamente los modelos de discapacidad y su expresión territorial en Aysén.</li>
@@ -69,10 +95,26 @@ export function CursoSection({ ir }: { ir: (r: string) => void }) {
 
 export function AccesibilidadSection() {
   const items = [
-    { icon: Accessibility, titulo: 'WCAG 2.1 AA', texto: 'Contraste de color, foco visible, navegación por teclado y mensajes de estado en vivo.' },
-    { icon: Eye, titulo: 'Alternativas de acceso', texto: 'Tabla accesible equivalente al mapa, texto alternativo y opciones de alto contraste y texto grande.' },
-    { icon: Keyboard, titulo: 'Navegación por teclado', texto: 'Toda la plataforma —incluida la presentación— se recorre sin mouse, con gestión de foco en ventanas modales.' },
-    { icon: MonitorSmartphone, titulo: 'Diseño responsivo', texto: 'Funciona en computadores, tablets y teléfonos, respetando preferencias de movimiento reducido.' },
+    {
+      img: 'assets/elementos/simbolo-accesibilidad.png',
+      titulo: 'WCAG 2.1 AA',
+      texto: 'Contraste de color, foco visible, navegación por teclado y mensajes de estado en vivo.',
+    },
+    {
+      img: 'assets/elementos/lengua-senas.png',
+      titulo: 'Alternativas de acceso',
+      texto: 'Tabla accesible equivalente al mapa, texto alternativo y opciones de alto contraste y texto grande.',
+    },
+    {
+      img: 'assets/elementos/baston-guia.png',
+      titulo: 'Navegación por teclado',
+      texto: 'Toda la plataforma —incluida la presentación— se recorre sin mouse, con gestión de foco en ventanas modales.',
+    },
+    {
+      img: 'assets/elementos/protesis.png',
+      titulo: 'Diseño responsivo',
+      texto: 'Funciona en computadores, tablets y teléfonos, respetando preferencias de movimiento reducido.',
+    },
   ];
   return (
     <section className="bg-muted/50 py-16" aria-labelledby="titulo-accesibilidad">
@@ -81,9 +123,11 @@ export function AccesibilidadSection() {
         <p className="text-muted-foreground mt-2 max-w-2xl">Una plataforma sobre discapacidad debe ser accesible en sí misma. Estos son los compromisos técnicos del sitio.</p>
         <div className="mt-8 grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
           {items.map(i => (
-            <Card key={i.titulo}>
-              <CardHeader>
-                <i.icon className="h-8 w-8 text-secondary" aria-hidden="true" />
+            <Card key={i.titulo} className="interactive-art-card group overflow-hidden border-border/80">
+              <CardHeader className="pb-2">
+                <div className="h-16 w-16 mb-2 rounded-xl bg-secondary/10 p-2 flex items-center justify-center">
+                  <img src={assetUrl(i.img)} alt="" className="art-icon h-12 w-auto object-contain" />
+                </div>
                 <CardTitle className="text-base">{i.titulo}</CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">{i.texto}</CardContent>

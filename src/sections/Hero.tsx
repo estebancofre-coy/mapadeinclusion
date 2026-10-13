@@ -53,9 +53,42 @@ export function Hero({ ir }: { ir: (r: string) => void }) {
               <BookOpen className="mr-2 h-5 w-5" /> Conocer el curso
             </Button>
           </div>
+
+          <div className="mt-8 border-t border-white/20 pt-5">
+            <p className="text-xs font-semibold uppercase tracking-wider text-white/80">Comunidad, diversidades y territorio</p>
+            <div className="mt-2.5 flex flex-wrap gap-2 text-xs">
+              <span className="hero-chip inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-white backdrop-blur-sm cursor-default">
+                <img src={assetUrl('assets/elementos/silla-ruedas.png')} alt="" className="h-5 w-auto object-contain" />
+                Movilidad activa
+              </span>
+              <span className="hero-chip inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-white backdrop-blur-sm cursor-default">
+                <img src={assetUrl('assets/elementos/lengua-senas.png')} alt="" className="h-5 w-auto object-contain" />
+                Lengua de Señas
+              </span>
+              <span className="hero-chip inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-white backdrop-blur-sm cursor-default">
+                <img src={assetUrl('assets/elementos/perro-guia.png')} alt="" className="h-5 w-auto object-contain" />
+                Guía y asistencia
+              </span>
+              <span className="hero-chip inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-white backdrop-blur-sm cursor-default">
+                <img src={assetUrl('assets/elementos/personas-mayores.png')} alt="" className="h-5 w-auto object-contain" />
+                Personas mayores
+              </span>
+              <span className="hero-chip inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1 text-white backdrop-blur-sm cursor-default">
+                <img src={assetUrl('assets/elementos/huemul.png')} alt="" className="h-5 w-auto object-contain" />
+                Patagonia Aysén
+              </span>
+            </div>
+          </div>
         </div>
-        <div className="hero-art-stage" aria-hidden="true">
-          <img src={assetUrl('assets/espora/espora-arbol-salvia.png')} alt="" className="hero-art" />
+        <div className="hero-art-stage" aria-label="Ilustración Mapa de Inclusión de la Región de Aysén">
+          <img
+            src={assetUrl('assets/hero-inclusivo.webp')}
+            alt="Ilustración territorial Mapa de Inclusión — Agrupaciones de personas con discapacidad de la Región de Aysén"
+            className="hero-art"
+            width="1594"
+            height="1017"
+            fetchPriority="high"
+          />
         </div>
       </div>
     </section>

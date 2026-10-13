@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import Cierre from '@/observa-chile/sections/Cierre';
 import GuiaCampo from '@/observa-chile/sections/GuiaCampo';
 import Hero from '@/observa-chile/sections/Hero';
-import Inspeccion from '@/observa-chile/sections/Inspeccion';
+import InspeccionPortal from '@/observa-chile/sections/InspeccionPortal';
 import MarcoLegal from '@/observa-chile/sections/MarcoLegal';
 import NormasOguc from '@/observa-chile/sections/NormasOguc';
 import Plazos from '@/observa-chile/sections/Plazos';
@@ -52,7 +52,7 @@ export function ObservaPage() {
       <NormasOguc />
       <Plazos />
       <GuiaCampo />
-      <Inspeccion />
+      <InspeccionPortal />
       <Cierre />
     </main>
   );

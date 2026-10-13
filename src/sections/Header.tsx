@@ -34,13 +34,15 @@ export function Header(p: Props) {
           </span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-1 ml-auto" aria-label="Navegación principal">
+        <nav className="hidden xl:flex min-w-0 flex-wrap justify-end items-center gap-1 ml-auto" aria-label="Navegación principal">
           {NAV.map(n => (
             <Button key={n.ruta} variant={p.ruta === n.ruta ? 'secondary' : 'ghost'} size="sm"
               aria-current={p.ruta === n.ruta ? 'page' : undefined}
               onClick={() => p.ir(n.ruta)}>{n.label}</Button>
           ))}
-          <Button size="sm" onClick={p.onPanel} className="ml-2">Panel de gestión</Button>
+          <Button size="sm" onClick={() => p.ir('#/estudiantes')} className="ml-2"
+            aria-current={p.ruta === '#/estudiantes' ? 'page' : undefined}>Ingresar estudiantes</Button>
+          <Button size="sm" variant="ghost" onClick={p.onPanel}>Panel demo</Button>
           <div className="flex items-center gap-1 ml-2 border-l pl-2" role="group" aria-label="Controles de accesibilidad">
             <Button variant={p.altoContraste ? 'default' : 'outline'} size="icon" onClick={p.toggleContraste}
               aria-pressed={p.altoContraste} title="Alto contraste" aria-label="Alternar alto contraste"><Contrast className="h-4 w-4" /></Button>
@@ -49,18 +51,20 @@ export function Header(p: Props) {
           </div>
         </nav>
 
-        <Button variant="ghost" size="icon" className="md:hidden ml-auto" onClick={() => setAbierto(!abierto)} aria-expanded={abierto} aria-label={abierto ? 'Cerrar menú' : 'Abrir menú'}>
+        <Button variant="ghost" size="icon" className="xl:hidden ml-auto" onClick={() => setAbierto(!abierto)} aria-expanded={abierto} aria-label={abierto ? 'Cerrar menú' : 'Abrir menú'}>
           {abierto ? <X /> : <Menu />}
         </Button>
       </div>
 
       {abierto && (
-        <nav className="md:hidden border-t px-4 py-3 flex flex-col gap-2" aria-label="Navegación móvil">
+        <nav className="xl:hidden border-t px-4 py-3 flex flex-col gap-2" aria-label="Navegación móvil">
           {NAV.map(n => (
             <Button key={n.ruta} variant={p.ruta === n.ruta ? 'secondary' : 'ghost'} className="justify-start"
               onClick={() => { p.ir(n.ruta); setAbierto(false); }}>{n.label}</Button>
           ))}
-          <Button onClick={() => { p.onPanel(); setAbierto(false); }}>Panel de gestión</Button>
+          <Button onClick={() => { p.ir('#/estudiantes'); setAbierto(false); }}
+            aria-current={p.ruta === '#/estudiantes' ? 'page' : undefined}>Ingresar estudiantes</Button>
+          <Button variant="outline" onClick={() => { p.onPanel(); setAbierto(false); }}>Panel demo (datos locales)</Button>
           <div className="flex gap-2">
             <Button variant={p.altoContraste ? 'default' : 'outline'} onClick={p.toggleContraste} aria-pressed={p.altoContraste}><Contrast className="h-4 w-4 mr-2" /> Contraste</Button>
             <Button variant={p.textoGrande ? 'default' : 'outline'} onClick={p.toggleTexto} aria-pressed={p.textoGrande}><Type className="h-4 w-4 mr-2" /> Texto</Button>

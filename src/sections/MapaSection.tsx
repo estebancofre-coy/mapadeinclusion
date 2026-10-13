@@ -9,6 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Download, Eraser, Mail, MapPin, Phone, Clock } from 'lucide-react';
 import { COMUNAS, TIPOS, type Organizacion } from '@/data/organizaciones';
+import { assetUrl } from '@/lib/assetUrl';
 
 const iconoActiva = L.icon({
   iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
@@ -80,11 +81,18 @@ export function MapaSection({ organizaciones }: Props) {
 
   return (
     <section id="mapa" className="max-w-7xl mx-auto px-4 py-16" aria-labelledby="titulo-mapa">
-      <h2 id="titulo-mapa" className="text-3xl font-bold text-primary">Mapa de organizaciones</h2>
-      <p className="text-muted-foreground mt-2 max-w-2xl">
-        Explora las organizaciones por comuna y tipo de discapacidad. Todas las fichas fueron construidas
-        con consentimiento informado de cada agrupación.
-      </p>
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <h2 id="titulo-mapa" className="text-3xl font-bold text-primary">Mapa de organizaciones</h2>
+          <p className="text-muted-foreground mt-2 max-w-2xl">
+            Explora las organizaciones por comuna y tipo de discapacidad. Todas las fichas fueron construidas
+            con consentimiento informado de cada agrupación.
+          </p>
+        </div>
+        <span className="inline-flex shrink-0 items-center rounded-full border border-border bg-card px-3 py-1.5 text-sm font-semibold text-foreground">
+          {organizaciones.length} en el catálogo
+        </span>
+      </div>
 
       <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-3" role="search" aria-label="Filtros de organizaciones">
         <div>
@@ -117,13 +125,84 @@ export function MapaSection({ organizaciones }: Props) {
         </div>
       </div>
 
+      <div className="mt-4 flex flex-wrap gap-2 items-center" aria-label="Filtro rápido por ámbito de inclusión">
+        <span className="text-xs font-semibold text-muted-foreground mr-1">Filtro rápido:</span>
+        <button
+          type="button"
+          onClick={() => setTipo('todos')}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all ${
+            tipo === 'todos' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted hover:bg-muted/80 text-foreground'
+          }`}
+        >
+          Todas
+        </button>
+        <button
+          type="button"
+          onClick={() => setTipo('Física')}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all ${
+            tipo === 'Física' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted hover:bg-muted/80 text-foreground'
+          }`}
+        >
+          <img src={assetUrl('assets/elementos/silla-ruedas.png')} alt="" className="h-4 w-auto object-contain" />
+          Física / Motriz
+        </button>
+        <button
+          type="button"
+          onClick={() => setTipo('Visual')}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all ${
+            tipo === 'Visual' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted hover:bg-muted/80 text-foreground'
+          }`}
+        >
+          <img src={assetUrl('assets/elementos/perro-guia.png')} alt="" className="h-4 w-auto object-contain" />
+          Visual
+        </button>
+        <button
+          type="button"
+          onClick={() => setTipo('Auditiva')}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all ${
+            tipo === 'Auditiva' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted hover:bg-muted/80 text-foreground'
+          }`}
+        >
+          <img src={assetUrl('assets/elementos/lengua-senas.png')} alt="" className="h-4 w-auto object-contain" />
+          Auditiva / LSCh
+        </button>
+        <button
+          type="button"
+          onClick={() => setTipo('Neurodivergencia')}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all ${
+            tipo === 'Neurodivergencia' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted hover:bg-muted/80 text-foreground'
+          }`}
+        >
+          <img src={assetUrl('assets/elementos/red-comunitaria.png')} alt="" className="h-4 w-auto object-contain" />
+          Neurodivergencia
+        </button>
+        <button
+          type="button"
+          onClick={() => setTipo('Mixta')}
+          className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium transition-all ${
+            tipo === 'Mixta' ? 'bg-primary text-primary-foreground shadow-sm' : 'bg-muted hover:bg-muted/80 text-foreground'
+          }`}
+        >
+          <img src={assetUrl('assets/elementos/personas-mayores.png')} alt="" className="h-4 w-auto object-contain" />
+          Mixta / Cuidado
+        </button>
+      </div>
+
       <p className="mt-4 text-sm" role="status" aria-live="polite">
-        {filtradas.length} organización{filtradas.length !== 1 ? 'es' : ''} encontrada{filtradas.length !== 1 ? 's' : ''}
+        Mostrando {filtradas.length} de {organizaciones.length} organizaciones
       </p>
 
       <div className="mt-4 grid lg:grid-cols-[1.2fr_1fr] gap-6">
         <div ref={mapaRef} className="mapa-principal" role="application" aria-label="Mapa interactivo de organizaciones" />
         <div className="space-y-3 max-h-[520px] overflow-y-auto pr-1" aria-label="Listado de organizaciones">
+          {filtradas.length === 0 && (
+            <div className="py-12 px-4 text-center border rounded-xl bg-card">
+              <img src={assetUrl('assets/elementos/cuidado-corazon.png')} alt="" className="h-16 w-auto object-contain mx-auto mb-3 animate-subtle-float" />
+              <p className="font-semibold text-foreground">No encontramos organizaciones con esos filtros</p>
+              <p className="text-sm text-muted-foreground mt-1">Prueba seleccionando otra comuna o limpiando la búsqueda.</p>
+              <Button variant="outline" size="sm" onClick={limpiar} className="mt-4">Restablecer filtros</Button>
+            </div>
+          )}
           {filtradas.map(o => (
             <Card key={o.id}
               tabIndex={0}

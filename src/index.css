@@ -63,26 +63,76 @@ html.texto-grande { font-size: 118%; }
   background: linear-gradient(110deg, hsl(var(--primary) / 0.96) 0%, hsl(var(--primary) / 0.92) 58%, hsl(var(--secondary) / 0.78) 100%);
 }
 .hero-art-stage {
-  width: min(100%, 17rem);
-  aspect-ratio: 1;
+  width: 100%;
+  max-width: 34rem;
   margin-inline: auto;
-  display: grid;
-  place-items: center;
+  position: relative;
+  display: block;
+  border-radius: 10px;
   overflow: hidden;
-  border: 1px solid rgb(255 255 255 / 0.35);
-  border-radius: 50%;
-  background: hsl(var(--primary));
+  border: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
   box-shadow: 0 18px 42px hsl(var(--primary) / 0.28);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.4s ease;
+}
+.hero-art-stage:hover {
+  transform: translateY(-4px) scale(1.01);
+  box-shadow: 0 24px 48px hsl(var(--primary) / 0.36);
 }
 .hero-art {
   display: block;
-  width: 88%;
-  height: 88%;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1594 / 1017;
   object-fit: contain;
 }
 .hero-art-stage:focus-within {
   outline: 3px solid #f7cb68;
   outline-offset: 4px;
+}
+
+/* Micro-interacciones e ilustraciones interactivas */
+@keyframes subtle-float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+@keyframes gentle-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.03); }
+}
+
+.animate-subtle-float {
+  animation: subtle-float 5s ease-in-out infinite;
+}
+
+.interactive-art-card {
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease, border-color 0.3s ease;
+}
+.interactive-art-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgb(0 0 0 / 0.12);
+}
+.interactive-art-card .art-icon {
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), filter 0.3s ease;
+}
+.interactive-art-card:hover .art-icon {
+  transform: scale(1.12) translateY(-2px);
+  filter: drop-shadow(0 6px 10px rgb(0 0 0 / 0.15));
+}
+
+.hero-chip {
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.hero-chip:hover {
+  transform: translateY(-2px) scale(1.03);
+  background-color: rgb(255 255 255 / 0.22);
+}
+.hero-chip:hover img {
+  transform: scale(1.18) rotate(3deg);
+}
+.hero-chip img {
+  transition: transform 0.25s ease;
 }
 
 /* Mapa principal */

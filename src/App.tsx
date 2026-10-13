@@ -7,10 +7,12 @@ import { PanelOperador } from '@/sections/PanelOperador';
 import { ProgramaPage } from '@/pages/ProgramaPage';
 import { PresentacionPage } from '@/pages/PresentacionPage';
 import { CartillaPage } from '@/pages/CartillaPage';
+import { EstudiantesPage } from '@/pages/EstudiantesPage';
 import { useA11y } from '@/hooks/useA11y';
 import { cargarOrganizaciones, type Organizacion } from '@/data/organizaciones';
 
 const ObservaPage = lazy(() => import('@/pages/ObservaPage').then((module) => ({ default: module.ObservaPage })));
+const InspectionForm = lazy(() => import('@/observa-chile/sections/Inspeccion'));
 
 function rutaActual(): string {
   const h = location.hash || '#/';
@@ -18,6 +20,8 @@ function rutaActual(): string {
   if (h.startsWith('#/programa')) return '#/programa';
   if (h.startsWith('#/cartilla')) return '#/cartilla';
   if (h.startsWith('#/observa')) return '#/observa';
+  if (h.startsWith('#/inspeccion')) return '#/inspeccion';
+  if (h.startsWith('#/estudiantes')) return '#/estudiantes';
   return '#/';
 }
 
@@ -38,6 +42,16 @@ export default function App() {
     setRuta(r);
     window.scrollTo(0, 0);
   }, []);
+
+  if (ruta === '#/inspeccion') {
+    return (
+      <Suspense fallback={<p className="px-4 py-12 text-center" role="status">Cargando cartilla…</p>}>
+        <main>
+          <InspectionForm />
+        </main>
+      </Suspense>
+    );
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -69,6 +83,7 @@ export default function App() {
           </Suspense>
         )}
         {ruta === '#/presentacion' && <PresentacionPage />}
+        {ruta === '#/estudiantes' && <EstudiantesPage />}
       </div>
       <Footer />
       <PanelOperador abierto={panel} onCerrar={() => setPanel(false)} organizaciones={orgs} onCambio={setOrgs} />

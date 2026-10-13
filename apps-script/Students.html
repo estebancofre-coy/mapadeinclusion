@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <base target="_top">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Visibilizar es Intervenir · Estudiantes</title>
+    <!-- Extensión operativa de la identidad existente: acceso, asignaciones y pauta A1–A18.
+         El listado y las respuestas se obtienen solo después de autenticar en el servidor. -->
+    <style>
+      :root {
+        font-family: Arial, sans-serif; color-scheme: light;
+        --primary: hsl(162 49% 24%); --ink: hsl(204 48% 18%);
+        --paper: hsl(135 14% 96%); --line: hsl(164 24% 83%);
+        --muted: hsl(200 18% 39%); --error: hsl(0 62% 45%);
+        color: var(--ink); background: var(--paper); line-height: 1.5;
+      }
+      * { box-sizing: border-box; }
+      [hidden] { display: none !important; }
+      body { margin: 0; }
+      header { background: var(--primary); color: #fff; padding: 16px max(16px, calc((100vw - 1120px) / 2)); }
+      header a { color: inherit; }
+      main { max-width: 1120px; margin: auto; padding: 32px 16px 64px; }
+      h1 { font-size: 1.875rem; line-height: 1.2; margin: 0 0 16px; }
+      h2 { font-size: 1.875rem; margin: 24px 0 12px; }
+      p { max-width: 70ch; }
+      .muted, .hint { color: var(--muted); }
+      .hint { font-size: .875rem; }
+      .login { max-width: 480px; background: #fff; border: 1px solid var(--line); padding: 24px; border-radius: 10px; margin-top: 24px; }
+      label { display: block; font-weight: 600; margin-bottom: 8px; }
+      input, select, button { font: inherit; }
+      input:not([type="checkbox"]), select { width: 100%; min-height: 44px; padding: 8px 12px; background: #fff; color: var(--ink); border: 1px solid var(--line); border-radius: 4px; }
+      input[type="checkbox"] { width: 20px; height: 20px; flex: 0 0 auto; accent-color: var(--primary); }
+      input:disabled, select:disabled { background: var(--paper); }
+      button { min-height: 44px; padding: 10px 16px; cursor: pointer; border: 1px solid var(--primary); border-radius: 4px; color: #fff; background: var(--primary); font-weight: 600; }
+      button.secondary { background: #fff; color: var(--primary); }
+      button:disabled { opacity: .6; cursor: wait; }
+      :focus-visible { outline: 3px solid hsl(187 79% 28%); outline-offset: 3px; }
+      .login label:not(:first-child) { margin-top: 16px; }
+      .login button { margin-top: 24px; width: 100%; }
+      .toolbar, .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+      .toolbar { justify-content: space-between; margin-bottom: 24px; }
+      .selector { max-width: 560px; margin-bottom: 24px; }
+      .workspace { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 32px; align-items: start; }
+      #organizations { display: grid; gap: 12px; }
+      #organizations button { text-align: left; width: 100%; background: #fff; color: var(--ink); border-color: var(--line); }
+      #organizations button[aria-pressed="true"] { border: 2px solid var(--primary); background: hsl(140 35% 93%); }
+      #organizations small { display: block; margin-top: 8px; font-size: .875rem; color: var(--muted); font-weight: 400; }
+      #form { background: #fff; border: 1px solid var(--line); border-radius: 10px; padding: 24px; min-width: 0; }
+      #formTitle { overflow-wrap: anywhere; }
+      .field { padding: 20px 0; border-bottom: 1px solid var(--line); }
+      .check { display: flex; align-items: flex-start; gap: 10px; font-weight: 400; margin: 10px 0; }
+      .unknown { font-size: .875rem; color: var(--muted); }
+      .progress { display: grid; gap: 12px; }
+      .stage { display: grid; grid-template-columns: minmax(0, 1fr) 160px; gap: 12px; align-items: center; }
+      .stage label { margin: 0; font-size: .875rem; }
+      .actions { margin-top: 24px; }
+      .message { min-height: 24px; margin-top: 12px; overflow-wrap: anywhere; }
+      .message.error { color: var(--error); }
+      @media (max-width: 760px) {
+        .workspace { grid-template-columns: minmax(0, 1fr); gap: 24px; }
+        main { padding-top: 24px; }
+        #form { padding: 16px; }
+        .stage { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+        .actions button { width: 100%; }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <strong>Visibilizar es Intervenir</strong> · Gestión de estudiantes
+      <br><a href="https://estebancofre-coy.github.io/mapadeinclusion/">Volver al sitio público</a>
+    </header>
+    <main>
+      <section id="loginView" aria-labelledby="loginTitle">
+        <h1 id="loginTitle">Carga la caracterización de tus organizaciones</h1>
+        <p class="muted">Trabajo Social y Discapacidad · Universidad de Aysén. En esta etapa se carga únicamente el Bloque A de la pauta. Los bloques B y C no se solicitan.</p>
+        <form id="loginForm" class="login">
+          <label for="username">Usuario compartido</label>
+          <input id="username" autocomplete="username" value="Estudiantes" required maxlength="40">
+          <label for="password">Contraseña</label>
+          <input id="password" type="password" autocomplete="current-password" required maxlength="128">
+          <button id="loginButton" type="submit">Ingresar</button>
+          <p id="loginMessage" class="message error" role="alert"></p>
+        </form>
+        <p class="hint">La cuenta es compartida. Después de ingresar selecciona tu nombre para atribuir el envío: esto no verifica tu identidad personal. No compartas el acceso fuera del curso.</p>
+      </section>
+
+      <section id="portalView" hidden aria-labelledby="portalTitle">
+        <div class="toolbar">
+          <h1 id="portalTitle">Organizaciones asignadas</h1>
+          <button id="logout" class="secondary" type="button">Cerrar sesión</button>
+        </div>
+        <div class="selector">
+          <label for="student">Identifícate en el listado del curso</label>
+          <select id="student"><option value="">Selecciona tu nombre…</option></select>
+        </div>
+        <p id="portalMessage" class="message" role="status" aria-live="polite"></p>
+        <div class="workspace">
+          <aside aria-label="Tus organizaciones">
+            <div id="organizations"></div>
+            <button id="reload" class="secondary" type="button" hidden>Recargar organizaciones</button>
+          </aside>
+          <form id="form" hidden>
+            <h2 id="formTitle"></h2>
+            <p id="formMeta" class="hint"></p>
+            <p class="hint">Confirma los datos prellenados con la entrevista. Un cero representa una cantidad real; si falta un dato, marca «No informado». El borrador admite respuestas pendientes.</p>
+            <h2>Avances del trabajo de campo</h2>
+            <div id="progress" class="progress"></div>
+            <p class="hint">La carga se actualiza al guardar. La validación corresponde al equipo docente; no puedes marcarla como completada.</p>
+            <h2>IV. Bloque A · Caracterización de la organización</h2>
+            <div id="questions"></div>
+            <label class="check"><input id="confirmation" type="checkbox"><span>Confirmo que transcribí el Bloque A de la entrevista y puedo enviarlo al archivo privado del curso. Este envío no autoriza su publicación.</span></label>
+            <div class="actions">
+              <button id="draft" class="secondary" type="button">Guardar borrador</button>
+              <button id="submit" type="submit">Enviar a revisión</button>
+            </div>
+            <p id="saveMessage" class="message" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+    <script>
+      const $ = (id) => document.getElementById(id);
+      let token = "";
+      let fields = [];
+      let stages = [];
+      let progressValues = [];
+      let portfolio = [];
+      let current = null;
+      let busy = false;
+      let dirty = false;
+      let pendingRequest = null;
+
+      function rpc(name, ...args) {
+        return new Promise((resolve, reject) => {
+          google.script.run.withSuccessHandler(resolve).withFailureHandler(reject)[name](...args);
+        });
+      }
+      function showError(id, error) {
+        $(id).classList.add("error");
+        $(id).textContent = error.message || "No se pudo completar la operación. Intenta nuevamente.";
+      }
+      function setBusy(value) {
+        busy = value;
+        document.querySelectorAll("button").forEach((button) => { button.disabled = value; });
+        $("student").disabled = value;
+        $("questions").querySelectorAll("input,select").forEach((control) => {
+          control.disabled = value || (control.dataset.answer === "yes" && $("unknown-" + control.dataset.field)?.checked);
+        });
+        $("progress").querySelectorAll("select").forEach((control) => { control.disabled = value; });
+        $("confirmation").disabled = value;
+        if (!value) refreshConditions();
+      }
+      function addOption(select, value, label) {
+        const option = document.createElement("option");
+        option.value = value; option.textContent = label;
+        select.appendChild(option);
+      }
+      function discardAllowed() {
+        return !dirty || window.confirm("Hay cambios sin guardar. ¿Quieres descartarlos?");
+      }
+
+      $("loginForm").addEventListener("submit", async (event) => {
+        event.preventDefault();
+        if (busy) return;
+        $("loginMessage").textContent = "";
+        $("loginButton").textContent = "Ingresando…";
+        setBusy(true);
+        try {
+          if (!token) {
+            const session = await rpc("studentLogin", $("username").value, $("password").value);
+            token = session.token;
+            $("password").value = "";
+          }
+          const roster = await rpc("studentRoster", token);
+          fields = roster.fields; stages = roster.stages; progressValues = roster.progressValues;
+          $("student").replaceChildren();
+          addOption($("student"), "", "Selecciona tu nombre…");
+          roster.students.forEach((student) => addOption($("student"), student.id, student.name));
+          $("loginView").hidden = true; $("portalView").hidden = false;
+          if (!roster.students.length) $("portalMessage").textContent = "El equipo docente aún debe importar el listado y las asignaciones.";
+        } catch (error) {
+          token = "";
+          showError("loginMessage", error);
+        } finally {
+          $("loginButton").textContent = "Ingresar";
+          setBusy(false);
+        }
+      });
+
+      async function loadPortfolio() {
+        if (busy || !discardAllowed()) return;
+        setBusy(true);
+        $("portalMessage").classList.remove("error");
+        $("portalMessage").textContent = "Cargando asignaciones…";
+        $("form").hidden = true;
+        $("organizations").replaceChildren();
+        try {
+          portfolio = await rpc("studentPortfolio", token, $("student").value);
+          dirty = false; current = null; pendingRequest = null;
+          portfolio.forEach((item) => {
+            const button = document.createElement("button");
+            button.type = "button";
+            button.dataset.org = item.orgId;
+            button.setAttribute("aria-pressed", "false");
+            button.appendChild(document.createTextNode(item.name));
+            const detail = document.createElement("small");
+            detail.textContent = item.commune + " · " + item.status;
+            button.appendChild(detail);
+            button.addEventListener("click", () => {
+              if (!busy && discardAllowed()) openOrganization(item);
+            });
+            $("organizations").appendChild(button);
+          });
+          $("reload").hidden = false;
+          $("portalMessage").textContent = portfolio.length
+            ? "Selecciona una organización. Tus respuestas no se guardan en este dispositivo."
+            : "No hay organizaciones asignadas a este nombre. Contacta al equipo docente.";
+        } catch (error) { showError("portalMessage", error); }
+        finally { setBusy(false); }
+      }
+      let selectedStudent = "";
+      $("student").addEventListener("change", () => {
+        if (!discardAllowed()) { $("student").value = selectedStudent; return; }
+        selectedStudent = $("student").value; dirty = false;
+        if (selectedStudent) loadPortfolio();
+        else { current = null; $("organizations").replaceChildren(); $("form").hidden = true; $("reload").hidden = true; }
+      });
+      $("reload").addEventListener("click", loadPortfolio);
+
+      function fieldActive(field, answers) {
+        if (!field.when) return true;
+        const parent = fields.find((candidate) => candidate.id === field.when[0]);
+        if (parent && !fieldActive(parent, answers)) return false;
+        const value = answers[field.when[0]];
+        return Array.isArray(value) ? value.includes(field.when[1]) : value === field.when[1];
+      }
+      function readAnswers() {
+        const answers = {};
+        fields.forEach((field) => {
+          if (!fieldActive(field, answers)) { answers[field.id] = field.type === "multi" ? [] : ""; return; }
+          if ($("unknown-" + field.id)?.checked) { answers[field.id] = null; return; }
+          if (field.type === "multi") {
+            answers[field.id] = [...$("field-" + field.id).querySelectorAll('[data-answer="yes"]:checked')].map((input) => input.value);
+          } else {
+            const value = $("answer-" + field.id).value;
+            answers[field.id] = ["year", "count"].includes(field.type) && value !== "" ? Number(value) : value;
+          }
+        });
+        return answers;
+      }
+      function refreshConditions() {
+        if (!current) return;
+        const answers = readAnswers();
+        fields.forEach((field) => {
+          const active = fieldActive(field, answers);
+          $("field-" + field.id).hidden = !active;
+          const unknown = $("unknown-" + field.id)?.checked;
+          $("field-" + field.id).querySelectorAll('[data-answer="yes"]').forEach((control) => {
+            control.disabled = busy || !active || unknown;
+            if (control.type !== "checkbox") control.required = active && !unknown && field.required && !["year","count"].includes(field.type);
+          });
+        });
+      }
+      function openOrganization(item) {
+        current = item; dirty = false; pendingRequest = null;
+        $("form").hidden = false; $("formTitle").textContent = item.name;
+        $("formMeta").textContent = item.commune + " · " + item.assignmentType + " · " + item.status + " · Versión " + item.version;
+        $("saveMessage").textContent = ""; $("confirmation").checked = false;
+        document.querySelectorAll("[data-org]").forEach((button) => {
+          button.setAttribute("aria-pressed", String(button.dataset.org === item.orgId));
+        });
+        $("progress").replaceChildren();
+        stages.forEach((stage, index) => {
+          const row = document.createElement("div"); row.className = "stage";
+          const label = document.createElement("label");
+          label.textContent = (index + 1) + ". " + stage; label.htmlFor = "stage-" + index;
+          row.appendChild(label);
+          if (index < 5) {
+            const select = document.createElement("select"); select.id = "stage-" + index;
+            progressValues.forEach((value) => addOption(select, value, value));
+            select.value = item.progress[index]; row.appendChild(select);
+          } else {
+            const text = document.createElement("span"); text.textContent = item.progress[index]; row.appendChild(text);
+          }
+          $("progress").appendChild(row);
+        });
+        $("questions").replaceChildren();
+        fields.forEach((field) => {
+          const wrapper = document.createElement("div"); wrapper.className = "field"; wrapper.id = "field-" + field.id;
+          const group = field.type === "multi" ? document.createElement("fieldset") : wrapper;
+          const label = document.createElement(field.type === "multi" ? "legend" : "label");
+          label.textContent = field.id.replace(/_.*/, "") + ". " + field.label;
+          if (field.type !== "multi") label.htmlFor = "answer-" + field.id;
+          group.appendChild(label);
+          if (field.type === "multi") {
+            group.style.border = "0"; group.style.padding = "0"; group.style.margin = "0";
+            field.options.forEach((option) => {
+              const choice = document.createElement("label"); choice.className = "check";
+              const input = document.createElement("input"); input.type = "checkbox"; input.value = option;
+              input.dataset.field = field.id; input.dataset.answer = "yes";
+              input.checked = Array.isArray(item.answers[field.id]) && item.answers[field.id].includes(option);
+              choice.append(input, document.createTextNode(option)); group.appendChild(choice);
+            });
+            wrapper.appendChild(group);
+          } else {
+            const control = document.createElement(field.type === "select" ? "select" : "input");
+            control.id = "answer-" + field.id; control.dataset.field = field.id; control.dataset.answer = "yes";
+            if (field.type === "select") {
+              addOption(control, "", "Selecciona una opción…");
+              field.options.forEach((option) => addOption(control, option, option));
+            } else if (["year","count"].includes(field.type)) {
+              control.type = "number"; control.step = "1"; control.min = field.type === "year" ? "1800" : "0";
+              control.max = field.type === "year" ? String(new Date().getFullYear()) : "10000000";
+            } else { control.type = "text"; control.maxLength = field.max; }
+            control.value = item.answers[field.id] ?? ""; wrapper.appendChild(control);
+          }
+          if (field.id !== "A1") {
+            const missing = document.createElement("label"); missing.className = "check unknown";
+            const checkbox = document.createElement("input"); checkbox.type = "checkbox"; checkbox.id = "unknown-" + field.id;
+            checkbox.checked = item.answers[field.id] === null;
+            missing.append(checkbox, document.createTextNode("No informado en la entrevista"));
+            wrapper.appendChild(missing);
+          }
+          $("questions").appendChild(wrapper);
+        });
+        refreshConditions();
+        $("formTitle").tabIndex = -1; $("formTitle").focus();
+      }
+
+      $("form").addEventListener("input", () => { dirty = true; refreshConditions(); });
+      async function save(status) {
+        if (busy || !current) return;
+        $("saveMessage").classList.remove("error");
+        if (status === "En revisión" && !$("confirmation").checked) {
+          showError("saveMessage", new Error("Confirma la transcripción y el envío antes de continuar.")); return;
+        }
+        const data = {
+          studentId: selectedStudent, orgId: current.orgId, version: current.version,
+          status: status, confirmed: $("confirmation").checked, answers: readAnswers(),
+          progress: stages.slice(0, 5).map((_, index) => $("stage-" + index).value),
+        };
+        const fingerprint = JSON.stringify(data);
+        if (!pendingRequest || pendingRequest.fingerprint !== fingerprint) {
+          pendingRequest = { fingerprint: fingerprint, id: crypto.randomUUID() };
+        }
+        setBusy(true);
+        $("saveMessage").textContent = "Guardando en el archivo privado…";
+        try {
+          const result = await rpc("studentSave", token, { ...data, requestId: pendingRequest.id });
+          current.version = result.version; current.status = result.status;
+          current.answers = data.answers;
+          current.progress = data.progress.concat([status === "En revisión" ? "Completado" : "En Proceso", current.progress[6]]);
+          dirty = false; pendingRequest = null;
+          openOrganization(current);
+          const button = [...document.querySelectorAll("[data-org]")].find((element) => element.dataset.org === current.orgId);
+          button.querySelector("small").textContent = current.commune + " · " + current.status;
+          $("saveMessage").textContent = status === "En revisión"
+            ? "Bloque A recibido para revisión docente. No se ha publicado en el mapa."
+            : "Borrador guardado. Puedes retomarlo seleccionando tu nombre y esta organización.";
+        } catch (error) { showError("saveMessage", error); }
+        finally { setBusy(false); }
+      }
+      $("draft").addEventListener("click", () => save("Borrador"));
+      $("form").addEventListener("submit", (event) => { event.preventDefault(); save("En revisión"); });
+      $("logout").addEventListener("click", async () => {
+        if (busy || !discardAllowed()) return;
+        setBusy(true);
+        try {
+          await rpc("studentLogout", token);
+          token = ""; current = null; portfolio = []; dirty = false; pendingRequest = null; selectedStudent = "";
+          $("student").replaceChildren(); $("organizations").replaceChildren(); $("questions").replaceChildren();
+          $("progress").replaceChildren(); $("password").value = "";
+          $("portalView").hidden = true; $("loginView").hidden = false; $("form").hidden = true;
+        } catch (error) { showError("portalMessage", error); }
+        finally { setBusy(false); }
+      });
+      window.addEventListener("beforeunload", (event) => {
+        if (dirty) { event.preventDefault(); event.returnValue = ""; }
+      });
+    </script>
+  </body>
+</html>

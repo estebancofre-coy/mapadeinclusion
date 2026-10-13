@@ -83,11 +83,23 @@ const datosFields: { key: keyof InspectionState["datos"]; label: string; type?: 
 ];
 
 export default function Inspeccion() {
-  const [state, setState] = useState<InspectionState>(loadState);
+  const dentroDeMarco = window.parent !== window;
+  const [state, setState] = useState<InspectionState>(() =>
+    dentroDeMarco ? initialState() : loadState()
+  );
   const [notasAbiertas, setNotasAbiertas] = useState<Record<string, boolean>>({});
   const fileInputs = useRef<Record<number, HTMLInputElement | null>>({});
+  const [hostOrigin, setHostOrigin] = useState<string | null>(null);
+  const [envio, setEnvio] = useState<
+    | { estado: "inactivo" }
+    | { estado: "enviando" }
+    | { estado: "error" }
+    | { estado: "enviado"; codigo: string }
+  >({ estado: "inactivo" });
+  const [confirmarEnvio, setConfirmarEnvio] = useState(false);
 
   useEffect(() => {
+    if (dentroDeMarco) return;
     const t = setTimeout(() => {
       try {
         localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
@@ -96,7 +108,31 @@ export default function Inspeccion() {
       }
     }, 400);
     return () => clearTimeout(t);
-  }, [state]);
+  }, [dentroDeMarco, state]);
+
+  useEffect(() => {
+    const onMessage = (event: MessageEvent) => {
+      if (event.source !== window.parent) return;
+      const host = new URL(event.origin);
+      const esAppsScript =
+        host.protocol === "https:" &&
+        (host.hostname === "script.google.com" ||
+          host.hostname === "script.googleusercontent.com" ||
+          host.hostname.endsWith(".script.googleusercontent.com"));
+      if (!esAppsScript) return;
+
+      if (event.data?.type === "ESPORA_INSPECTION_HOST_READY") {
+        setHostOrigin(event.origin);
+        window.parent.postMessage({ type: "ESPORA_INSPECTION_CHILD_READY" }, event.origin);
+      } else if (event.data?.type === "ESPORA_INSPECTION_SAVED") {
+        setEnvio({ estado: "enviado", codigo: event.data.codigo });
+      } else if (event.data?.type === "ESPORA_INSPECTION_FAILED") {
+        setEnvio({ estado: "error" });
+      }
+    };
+    window.addEventListener("message", onMessage);
+    return () => window.removeEventListener("message", onMessage);
+  }, []);
 
   const sections = state.modo === "edificio" ? checklistEdificio : checklistEvento;
   const score = useMemo(() => computeScore(sections, state.evaluaciones), [sections, state.evaluaciones]);
@@ -126,6 +162,15 @@ export default function Inspeccion() {
 
   const descargarPdf = () => generatePdf(state, sections, score);
 
+  const enviarAlEquipo = () => {
+    if (!hostOrigin || !confirmarEnvio || envio.estado === "enviando") return;
+    setEnvio({ estado: "enviando" });
+    window.parent.postMessage(
+      { type: "ESPORA_INSPECTION_SUBMIT", inspeccion: { state, score } },
+      hostOrigin
+    );
+  };
+
   const limpiar = () => {
     if (window.confirm("¿Borrar todos los datos de la inspección actual?")) {
       localStorage.removeItem(STORAGE_KEY);
@@ -144,7 +189,8 @@ export default function Inspeccion() {
         <p className="mt-3 max-w-2xl text-muted-foreground">
           Evalúa cada criterio en terreno y agrega observaciones con medidas y
           referencias normativas. Tus respuestas se guardan automáticamente en este
-          navegador y puedes descargar el informe en PDF al finalizar.
+          navegador si completas la cartilla desde el sitio público; en el portal Apps
+          Script puedes enviarlas al archivo privado del equipo.
         </p>
 
         {/* Selector de tipo de inspección */}
@@ -368,6 +414,7 @@ export default function Inspeccion() {
                     <Label className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">{label}</Label>
                     <Input
                       className="mt-1.5 bg-white"
+                      placeholder={k === "consentimiento" ? "Sí / No" : undefined}
                       value={state.entrevista[k]}
                       onChange={(e) =>
                         setState((s) => ({ ...s, entrevista: { ...s.entrevista, [k]: e.target.value } }))
@@ -548,9 +595,48 @@ export default function Inspeccion() {
               <Button variant="outline" className="mt-2 w-full" onClick={limpiar}>
                 <Eraser className="mr-2 h-4 w-4" /> Limpiar formulario
               </Button>
-              <p className="mt-3 text-center text-[11px] leading-relaxed text-muted-foreground">
-                Los datos se guardan solo en este navegador; no se envían a ningún servidor.
-              </p>
+              {hostOrigin ? (
+                <div className="mt-4 border-t border-border pt-4">
+                  <label className="flex items-start gap-2 text-xs leading-relaxed text-muted-foreground">
+                    <input
+                      type="checkbox"
+                      className="mt-0.5"
+                      checked={confirmarEnvio}
+                      onChange={(event) => setConfirmarEnvio(event.target.checked)}
+                      disabled={envio.estado === "enviando" || envio.estado === "enviado"}
+                    />
+                    <span>
+                      Confirmo que puedo enviar esta inspección para su almacenamiento
+                      privado por el equipo responsable.
+                    </span>
+                  </label>
+                  <Button
+                    className="mt-3 w-full bg-primary hover:bg-primary/90"
+                    size="lg"
+                    onClick={enviarAlEquipo}
+                    disabled={!confirmarEnvio || envio.estado === "enviando" || envio.estado === "enviado"}
+                  >
+                    {envio.estado === "enviando"
+                      ? "Enviando…"
+                      : envio.estado === "enviado"
+                        ? "Inspección enviada"
+                        : "Enviar al equipo"}
+                  </Button>
+                  <p className="mt-2 text-center text-xs leading-relaxed text-muted-foreground" role="status">
+                    {envio.estado === "enviado"
+                      ? `Registro recibido. Código de referencia: ${envio.codigo}`
+                      : envio.estado === "error"
+                        ? "No se pudo guardar. Revisa tu conexión e inténtalo nuevamente."
+                        : "El envío guarda respuestas y fotos en archivos privados de Google Drive; el PDF se descarga por separado."}
+                  </p>
+                </div>
+              ) : (
+                <p className="mt-3 text-center text-xs leading-relaxed text-muted-foreground">
+                  {dentroDeMarco
+                    ? "El portal seguro no está conectado. Abre la cartilla desde el enlace oficial."
+                    : "Los datos se guardan solo en este navegador; no se envían a ningún servidor."}
+                </p>
+              )}
             </div>
           </aside>
         </div>

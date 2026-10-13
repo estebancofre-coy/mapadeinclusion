@@ -3,19 +3,23 @@ import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { Progress } from '@/components/ui/progress';
 import { CalendarDays, Users, BookOpen, Scale } from 'lucide-react';
+import { assetUrl } from '@/lib/assetUrl';
 
 const UNIDADES = [
   {
     n: 'Unidad 1', color: 'bg-primary', titulo: 'Comprensión crítica de los modelos de discapacidad y cartografía socio-espacial',
     semanas: 'Semanas 1–6', desc: 'Modelos médico, social, de derechos, ecológico y crítico. Análisis de prensa local, taller de diseño universal y levantamiento del listado territorial de agrupaciones.',
+    img: 'assets/elementos/mapa-aysen.png',
   },
   {
     n: 'Unidad 2', color: 'bg-secondary', titulo: 'Investigación-intervención con agrupación asignada',
     semanas: 'Semanas 7–13 (16 sep – 30 oct)', desc: 'Contacto formal, consentimiento informado, trabajo de campo con bitácora, aplicación del checklist de diseño universal y construcción de la ficha pública.',
+    img: 'assets/elementos/red-comunitaria.png',
   },
   {
     n: 'Unidad 3', color: 'bg-accent', titulo: 'Lanzamiento público y sostenibilidad',
     semanas: 'Semanas 14–18', desc: 'Validación final de fichas con las agrupaciones, lanzamiento de la plataforma, devolución del proceso y presentación oral del portafolio reflexivo.',
+    img: 'assets/elementos/huemul.png',
   },
 ];
 
@@ -38,9 +42,14 @@ const BIBLIO = [
 export function ProgramaPage() {
   return (
     <main className="max-w-5xl mx-auto px-4 py-12">
-      <p className="text-secondary font-semibold uppercase tracking-wide text-sm">Programa de asignatura · 2026-II</p>
-      <h1 className="text-4xl font-extrabold text-primary mt-2">Trabajo Social y Discapacidad</h1>
-      <p className="text-lg text-muted-foreground mt-2">TSE013-1 · Carrera de Trabajo Social · Universidad de Aysén</p>
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <p className="text-secondary font-semibold uppercase tracking-wide text-sm">Programa de asignatura · 2026-II</p>
+          <h1 className="text-4xl font-extrabold text-primary mt-2">Trabajo Social y Discapacidad</h1>
+          <p className="text-lg text-muted-foreground mt-2">TSE013-1 · Carrera de Trabajo Social · Universidad de Aysén</p>
+        </div>
+        <img src={assetUrl('assets/elementos/condor.png')} alt="" className="h-24 w-auto object-contain self-center sm:self-auto shrink-0 animate-subtle-float" />
+      </div>
 
       <Card className="mt-8">
         <CardHeader><CardTitle className="flex items-center gap-2"><BookOpen className="h-5 w-5" /> Ficha del curso</CardTitle></CardHeader>
@@ -87,14 +96,19 @@ export function ProgramaPage() {
         <h2 id="unidades" className="text-2xl font-bold text-primary">Unidades y calendario</h2>
         <div className="mt-4 space-y-4">
           {UNIDADES.map(u => (
-            <Card key={u.n} className="overflow-hidden">
+            <Card key={u.n} className="interactive-art-card group overflow-hidden">
               <div className={`h-2 ${u.color}`} aria-hidden="true" />
               <CardHeader>
-                <div className="flex flex-wrap items-center gap-2">
-                  <Badge>{u.n}</Badge>
-                  <span className="text-xs text-muted-foreground flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5" /> {u.semanas}</span>
+                <div className="flex items-start justify-between gap-4">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge>{u.n}</Badge>
+                      <span className="text-xs text-muted-foreground flex items-center gap-1"><CalendarDays className="h-3.5 w-3.5" /> {u.semanas}</span>
+                    </div>
+                    <CardTitle className="text-lg mt-2">{u.titulo}</CardTitle>
+                  </div>
+                  <img src={assetUrl(u.img)} alt="" className="art-icon h-12 w-auto object-contain shrink-0" />
                 </div>
-                <CardTitle className="text-lg">{u.titulo}</CardTitle>
               </CardHeader>
               <CardContent className="text-sm text-muted-foreground">{u.desc}</CardContent>
             </Card>
